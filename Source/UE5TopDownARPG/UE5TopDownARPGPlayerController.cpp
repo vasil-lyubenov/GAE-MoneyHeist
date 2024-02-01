@@ -34,6 +34,12 @@ void AUE5TopDownARPGPlayerController::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
+	AUE5TopDownARPGHUD* HUD = Cast<AUE5TopDownARPGHUD>(GetHUD());
+	if (IsValid(HUD))
+	{
+		HUD->ShowStartGameScreen();
+	}
+
 	//Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{

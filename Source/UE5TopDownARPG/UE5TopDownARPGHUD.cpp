@@ -3,6 +3,7 @@
 
 #include "UE5TopDownARPGHUD.h"
 #include "UI/EndGameWidget.h"
+#include "UI/StartGameWidget.h"
 #include "Kismet/GameplayStatics.h"
 
 void AUE5TopDownARPGHUD::BeginPlay()
@@ -18,6 +19,15 @@ void AUE5TopDownARPGHUD::BeginPlay()
       EndGameWidget->AddToViewport();
       EndGameWidget->SetVisibility(ESlateVisibility::Collapsed);
     }
+
+    StartGameWidget = CreateWidget<UStartGameWidget>(PlayerController, StartGameWidgetClass);
+    if (IsValid(StartGameWidget))
+    {
+        StartGameWidget->AddToViewport();
+        StartGameWidget->SetVisibility(ESlateVisibility::Collapsed);
+        StartGameWidget->Init();
+        ShowStartGameScreen();
+    }
   }
 }
 
@@ -27,4 +37,20 @@ void AUE5TopDownARPGHUD::ShowEndGameScreen()
   {
     EndGameWidget->SetVisibility(ESlateVisibility::Visible);
   }
+}
+
+void AUE5TopDownARPGHUD::ShowStartGameScreen()
+{
+    if (IsValid(StartGameWidget))
+    {
+        StartGameWidget->SetVisibility(ESlateVisibility::Visible);
+    }
+}
+
+void AUE5TopDownARPGHUD::HideStartGameScreen()
+{
+    if (IsValid(StartGameWidget))
+    {
+        StartGameWidget->SetVisibility(ESlateVisibility::Collapsed);
+    }
 }

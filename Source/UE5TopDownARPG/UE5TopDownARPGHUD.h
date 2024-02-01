@@ -17,11 +17,19 @@ class UE5TOPDOWNARPG_API AUE5TopDownARPGHUD : public AHUD
 public:
 	virtual void BeginPlay() override;
 	void ShowEndGameScreen();
+	void ShowStartGameScreen();
+	void HideStartGameScreen();
 
 private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UUserWidget> EndGameWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UUserWidget> StartGameWidgetClass;
+
 	UPROPERTY()
 	class UEndGameWidget* EndGameWidget;
-	
+
+	UPROPERTY()
+	class UStartGameWidget* StartGameWidget;
 };
