@@ -2,6 +2,9 @@
 #include "CustomActionButton.h"
 #include <UE5TopDownARPG/UE5TopDownARPGHUD.h>
 #include <UE5TopDownARPG/UE5TopDownARPGHUD.h>
+#include "GameFramework/PlayerState.h"
+#include "Net/UnrealNetwork.h"
+#include "../Beacon/MoneyHeistBeaconHost.h"
 
 UCustomActionButton::UCustomActionButton()
 {

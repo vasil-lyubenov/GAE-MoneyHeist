@@ -66,6 +66,9 @@ private:
 
 	bool bIsTouch; // Is it a touch device
 	float FollowTime; // For how long it has been pressed
+	float DefaultWeight = 1.0;
+	float Weight;
+	float NormalSpeedScale = 1.0;
 };
 
 

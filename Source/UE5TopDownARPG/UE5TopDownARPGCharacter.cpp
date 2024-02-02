@@ -17,6 +17,7 @@
 #include "UE5TopDownARPG.h"
 #include "UI/HealthbarWidget.h"
 #include "Net/UnrealNetwork.h"
+#include "MoneyHeistPlayerState.h"
 
 AUE5TopDownARPGCharacter::AUE5TopDownARPGCharacter()
 {
@@ -75,6 +76,8 @@ void AUE5TopDownARPGCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SpawnPosition = GetActorLocation();
+
 	if (AbilityTemplate != nullptr)
 	{
 		AbilityInstance = NewObject<UBaseAbility>(this, AbilityTemplate);
@@ -149,10 +152,27 @@ void AUE5TopDownARPGCharacter::OnRep_SetHealth(float OldHealth)
 	}
 }
 
+void AUE5TopDownARPGCharacter::UpdateScore(float Score)
+{
+	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(GetPlayerState());
+	if (IsValid(State) == false)
+	{
+		return;
+	}
+	State->Score = State->GetScore() + Score;
+}
+	
+
+void AUE5TopDownARPGCharacter::RespawnPlayer()
+{
+	SetActorLocation(SpawnPosition);
+}
+
 void AUE5TopDownARPGCharacter::Death()
 {
 	UE_LOG(LogUE5TopDownARPG, Log, TEXT("Death"));
-	AUE5TopDownARPGGameMode* GameMode = Cast<AUE5TopDownARPGGameMode>(GetWorld()->GetAuthGameMode());
+	RespawnPlayer();
+	/*AUE5TopDownARPGGameMode* GameMode = Cast<AUE5TopDownARPGGameMode>(GetWorld()->GetAuthGameMode());
 	if (IsValid(GameMode))
 	{
 		GameMode->EndGame(false);
@@ -174,5 +194,5 @@ void AUE5TopDownARPGCharacter::Death()
 	{
 		PlayerController->OnPlayerDied();
 	}
-	Destroy();
+	Destroy();*/
 }

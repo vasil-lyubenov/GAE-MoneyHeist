@@ -17,6 +17,9 @@ public:
 protected:
 	virtual void OnPickup(class AUE5TopDownARPGCharacter* Character);
 
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_OnPickup(UPrimitiveComponent* OverlappedComponent, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 

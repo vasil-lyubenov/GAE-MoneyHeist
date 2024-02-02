@@ -24,6 +24,8 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	void UpdateScore(float Score);
+
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
@@ -65,6 +67,9 @@ private:
 	UPROPERTY(Replicated, EditDefaultsOnly)
 	float MaxHealth = 100.0f;
 
+	UPROPERTY(Replicated, EditDefaultsOnly)
+	FVector SpawnPosition;
+
 	UPROPERTY(EditDefaultsOnly)
 	float DeathDelay = 1.0f;
 
@@ -75,6 +80,10 @@ private:
 
 	UFUNCTION()
 	void TakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigateBy, AActor* DamageCauser);
+
+
+	UFUNCTION()
+	void RespawnPlayer();
 
 	UFUNCTION()
 	void OnRep_SetHealth(float OldHealth);

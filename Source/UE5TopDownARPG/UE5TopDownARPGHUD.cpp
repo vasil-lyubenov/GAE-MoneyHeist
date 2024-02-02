@@ -26,7 +26,7 @@ void AUE5TopDownARPGHUD::BeginPlay()
         StartGameWidget->AddToViewport();
         StartGameWidget->SetVisibility(ESlateVisibility::Collapsed);
         StartGameWidget->Init();
-        ShowStartGameScreen();
+        //ShowStartGameScreen();
     }
   }
 }

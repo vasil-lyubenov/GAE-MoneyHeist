@@ -11,6 +11,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "UE5TopDownARPG.h"
+#include "MoneyHeistPlayerState.h"
 
 AUE5TopDownARPGPlayerController::AUE5TopDownARPGPlayerController()
 {
@@ -33,6 +34,8 @@ void AUE5TopDownARPGPlayerController::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	Weight = DefaultWeight;
 
 	AUE5TopDownARPGHUD* HUD = Cast<AUE5TopDownARPGHUD>(GetHUD());
 	if (IsValid(HUD))
@@ -102,10 +105,18 @@ void AUE5TopDownARPGPlayerController::OnSetDestinationTriggered()
 	
 	// Move towards mouse pointer or touch
 	APawn* ControlledPawn = GetPawn();
+	
+	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(PlayerState);
+
+	if (IsValid(State)) 
+	{
+		Weight = State->GetWeight();
+	}
+
 	if (ControlledPawn != nullptr)
 	{
 		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
-		ControlledPawn->AddMovementInput(WorldDirection, 1.0, false);
+		ControlledPawn->AddMovementInput(WorldDirection, NormalSpeedScale * Weight, false);
 	}
 }
 

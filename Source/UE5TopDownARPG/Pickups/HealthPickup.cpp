@@ -9,4 +9,3 @@ void AHealthPickup::OnPickup(AUE5TopDownARPGCharacter* Character)
 {
   Character->TakeDamage(-HealAmount, FDamageEvent(UDamageType::StaticClass()), nullptr, this);
 }
-
