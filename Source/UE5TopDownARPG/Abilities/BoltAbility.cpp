@@ -8,10 +8,10 @@
 
 bool UBoltAbility::Activate(FVector Location)
 {
-  if (Super::Activate(Location) == false)
-  {
-    return false;
-  }
+	if (Super::Activate(Location) == false)
+	{
+		return false;
+	}
 
 	ServerRPC_SpawnProjectile(Location);
 
