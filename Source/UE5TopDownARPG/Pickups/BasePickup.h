@@ -6,14 +6,17 @@
 #include "GameFramework/Actor.h"
 #include "BasePickup.generated.h"
 
+DECLARE_DELEGATE(OnPickupDelegate)
+
 UCLASS()
 class UE5TOPDOWNARPG_API ABasePickup : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	ABasePickup();
+	OnPickupDelegate OnPickupCallback;
 
+	ABasePickup();
 protected:
 	virtual void OnPickup(class AUE5TopDownARPGCharacter* Character);
 

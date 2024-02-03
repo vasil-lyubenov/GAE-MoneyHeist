@@ -152,6 +152,14 @@ void AUE5TopDownARPGCharacter::OnRep_SetHealth(float OldHealth)
 	}
 }
 
+void AUE5TopDownARPGCharacter::OnRep_SetWeight(float OldWeight)
+{
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Health %f"), Weight));
+	}
+}
+
 void AUE5TopDownARPGCharacter::UpdateScore(float Score)
 {
 	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(GetPlayerState());

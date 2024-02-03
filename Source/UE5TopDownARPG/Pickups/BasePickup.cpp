@@ -24,7 +24,7 @@ ABasePickup::ABasePickup()
 
 void ABasePickup::OnPickup(AUE5TopDownARPGCharacter* Character)
 {
-
+	OnPickupCallback.ExecuteIfBound();
 }
 
 void ABasePickup::ServerRPC_OnPickup_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

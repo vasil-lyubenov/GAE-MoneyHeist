@@ -1,14 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+#include <Net/UnrealNetwork.h>
 #include "MoneyHeistPlayerState.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class UE5TOPDOWNARPG_API AMoneyHeistPlayerState : public APlayerState
 {
@@ -16,13 +12,18 @@ class UE5TOPDOWNARPG_API AMoneyHeistPlayerState : public APlayerState
 	
 public:
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
-	TArray<float> Items;
+	TArray<AActor*> Items;
+
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	int32 MaxInventorySize = 10;
+
+	AMoneyHeistPlayerState();
 
 	UFUNCTION()
 	float GetWeight();
 
 	UFUNCTION()
-	bool AddItem(float Item);
+	bool AddItem(class AScorePickup* Item);
 
 	UFUNCTION()
 	void RestoreInventory();

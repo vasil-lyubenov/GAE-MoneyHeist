@@ -32,12 +32,24 @@ protected:
 
 	FTimerHandle CustomSpawnTickTimerHandle;
 
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_ClearPickupAt(int32 position);
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_InitSpawnTimer();
+	
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_CreatePickup();
 public:	
-	void CreatePickup();
+
+	// Return equal to -1 means there is not place available to spawn
+	int32 GetRandomPositionToSpawn();
 
 	// Used to stop spawning after game has ended
-	void OnGamEnd();
-
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_OnGameEnd();
 private:
 	TArray<AScorePickup> ScorePickups;
+
+	TSet<int32> TakenPositions;
 };

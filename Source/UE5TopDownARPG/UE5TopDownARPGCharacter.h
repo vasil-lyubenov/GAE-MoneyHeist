@@ -64,6 +64,9 @@ private:
 	UPROPERTY(ReplicatedUsing = OnRep_SetHealth, EditDefaultsOnly)
 	float Health = 100.0f;
 
+	UPROPERTY(ReplicatedUsing = OnRep_SetWeight, EditDefaultsOnly)
+	float Weight = 1.0f;
+
 	UPROPERTY(Replicated, EditDefaultsOnly)
 	float MaxHealth = 100.0f;
 
@@ -87,6 +90,9 @@ private:
 
 	UFUNCTION()
 	void OnRep_SetHealth(float OldHealth);
+	
+	UFUNCTION()
+	void OnRep_SetWeight(float OldWeight);
 
 	void Death();
 };

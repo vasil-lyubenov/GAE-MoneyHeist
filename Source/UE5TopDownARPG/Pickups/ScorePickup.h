@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "BasePickup.h"
+#include <Net/UnrealNetwork.h>
 #include "ScorePickup.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class UE5TOPDOWNARPG_API AScorePickup : public ABasePickup
 {
@@ -17,9 +16,16 @@ class UE5TOPDOWNARPG_API AScorePickup : public ABasePickup
 protected:
 	virtual void OnPickup(class AUE5TopDownARPGCharacter* Character);
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Replicated)
 	float ScoreIncrease = 10.0f;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Replicated)
 	float Weight = 10.0f;
+
+public:
+	float GetWeight();
+
+	float GetScore();
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

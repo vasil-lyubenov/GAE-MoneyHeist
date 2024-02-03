@@ -5,5 +5,24 @@
 
 void AScorePickup::OnPickup(AUE5TopDownARPGCharacter* Character)
 {
+	Super::OnPickup(Character);
 	Character->UpdateScore(ScoreIncrease);
+}
+
+float AScorePickup::GetWeight()
+{
+	return Weight;
+}
+
+float AScorePickup::GetScore()
+{
+	return ScoreIncrease;
+}
+
+void AScorePickup::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AScorePickup, ScoreIncrease);
+	DOREPLIFETIME(AScorePickup, Weight);
 }

@@ -1,17 +1,28 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "MoneyHeistPlayerState.h"
-#include "Net/UnrealNetwork.h"
+#include "Pickups/ScorePickup.h"
+
+AMoneyHeistPlayerState::AMoneyHeistPlayerState()
+{
+    bReplicates = true;
+    SetReplicates(true);
+}
 
 float AMoneyHeistPlayerState::GetWeight()
 {
-	return 3.0;
+	return 3.0f;
 }
 
-bool AMoneyHeistPlayerState::AddItem(float Item)
+bool AMoneyHeistPlayerState::AddItem(AScorePickup* Item)
 {
-	return true;
+    if (Items.Num() >= MaxInventorySize)
+    {
+        return false;
+    }
+
+    Items.Add(Item);
+    return true;
 }
 
 void AMoneyHeistPlayerState::RestoreInventory()
@@ -28,7 +39,11 @@ void AMoneyHeistPlayerState::ReachedGoal()
     // Update Update Score
     for (int i = 0; i < Items.Num(); i++)
     {
-        Score += Items[i];
+        AScorePickup* Item = Cast<AScorePickup>(Items[i]);
+        if (IsValid(Item)) 
+        {
+            SetScore(GetScore() + Item->GetScore());
+        }
     }
 
     RestoreInventory();
@@ -67,4 +82,5 @@ void AMoneyHeistPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
     DOREPLIFETIME(AMoneyHeistPlayerState, Items);
+    DOREPLIFETIME(AMoneyHeistPlayerState, MaxInventorySize);
 }
