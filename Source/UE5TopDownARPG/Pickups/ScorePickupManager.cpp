@@ -7,7 +7,7 @@
 // Sets default values
 AScorePickupManager::AScorePickupManager()
 {
-	SetReplicates(true);
+	bReplicates = true;
 
 	PrimaryActorTick.bCanEverTick = true;
 }

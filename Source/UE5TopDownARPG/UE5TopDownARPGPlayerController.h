@@ -44,6 +44,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* ActivateAbilityAction;
 
+	virtual void OnRep_PlayerState() override;
+
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
@@ -67,8 +69,8 @@ private:
 	bool bIsTouch; // Is it a touch device
 	float FollowTime; // For how long it has been pressed
 	float DefaultWeight = 1.0;
-	float Weight;
 	float NormalSpeedScale = 1.0;
+	float DefaultMaxWalkSpeed;
 };
 
 

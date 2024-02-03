@@ -10,6 +10,7 @@
 ABasePickup::ABasePickup()
 {
 	SetReplicates(true);
+	bReplicates = true;
 
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -27,7 +28,7 @@ void ABasePickup::OnPickup(AUE5TopDownARPGCharacter* Character)
 	OnPickupCallback.ExecuteIfBound();
 }
 
-void ABasePickup::ServerRPC_OnPickup_Implementation(UPrimitiveComponent* OverlappedComponent, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ABasePickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogUE5TopDownARPG, Log, TEXT("OverlapBegin %s %s"), *Other->GetName(), *OtherComp->GetName());
 	AUE5TopDownARPGCharacter* Character = Cast<AUE5TopDownARPGCharacter>(Other);
@@ -41,9 +42,3 @@ void ABasePickup::ServerRPC_OnPickup_Implementation(UPrimitiveComponent* Overlap
 		}
 	}
 }
-
-void ABasePickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	ServerRPC_OnPickup(OverlappedComponent, Other, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
-}
-

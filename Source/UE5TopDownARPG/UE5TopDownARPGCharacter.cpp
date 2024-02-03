@@ -18,6 +18,7 @@
 #include "UI/HealthbarWidget.h"
 #include "Net/UnrealNetwork.h"
 #include "MoneyHeistPlayerState.h"
+#include "Pickups/ScorePickup.h"
 
 AUE5TopDownARPGCharacter::AUE5TopDownARPGCharacter()
 {
@@ -152,22 +153,18 @@ void AUE5TopDownARPGCharacter::OnRep_SetHealth(float OldHealth)
 	}
 }
 
-void AUE5TopDownARPGCharacter::OnRep_SetWeight(float OldWeight)
-{
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Health %f"), Weight));
-	}
-}
-
-void AUE5TopDownARPGCharacter::UpdateScore(float Score)
+void AUE5TopDownARPGCharacter::ServerRPC_UpdateState_Implementation(AScorePickup* Pickup)
 {
 	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(GetPlayerState());
 	if (IsValid(State) == false)
 	{
 		return;
 	}
-	State->Score = State->GetScore() + Score;
+
+	if (State->AddItem(Pickup)) 
+	{
+		//Weight += Pickup->GetWeight();
+	}
 }
 	
 

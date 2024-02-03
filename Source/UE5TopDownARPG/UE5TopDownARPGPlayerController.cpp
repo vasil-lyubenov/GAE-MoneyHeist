@@ -12,6 +12,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "UE5TopDownARPG.h"
 #include "MoneyHeistPlayerState.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "MoneyHeistMovementComponent.h"
 
 AUE5TopDownARPGPlayerController::AUE5TopDownARPGPlayerController()
 {
@@ -32,10 +34,7 @@ void AUE5TopDownARPGPlayerController::OnPlayerDied()
 
 void AUE5TopDownARPGPlayerController::BeginPlay()
 {
-	// Call the base class  
 	Super::BeginPlay();
-
-	Weight = DefaultWeight;
 
 	AUE5TopDownARPGHUD* HUD = Cast<AUE5TopDownARPGHUD>(GetHUD());
 	if (IsValid(HUD))
@@ -47,6 +46,18 @@ void AUE5TopDownARPGPlayerController::BeginPlay()
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
+	}
+}
+
+void AUE5TopDownARPGPlayerController::OnRep_PlayerState()
+{
+	if (PlayerState != nullptr) 
+	{
+		AMoneyHeistPlayerState* CurrentState = Cast<AMoneyHeistPlayerState>(PlayerState);
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Weight %f"), CurrentState->GetWeight()));
+		}
 	}
 }
 
@@ -104,19 +115,22 @@ void AUE5TopDownARPGPlayerController::OnSetDestinationTriggered()
 	}
 	
 	// Move towards mouse pointer or touch
-	APawn* ControlledPawn = GetPawn();
 	
 	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(PlayerState);
-
+	float ControlsDirectionScale = 1.0f;
+	float Weight = 0.0f;
 	if (IsValid(State)) 
 	{
+		ControlsDirectionScale = State->AreControlsReversed() ? -1 : 1;
 		Weight = State->GetWeight();
 	}
+
+	APawn* ControlledPawn = GetPawn();
 
 	if (ControlledPawn != nullptr)
 	{
 		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
-		ControlledPawn->AddMovementInput(WorldDirection, NormalSpeedScale * Weight, false);
+		ControlledPawn->AddMovementInput(WorldDirection, ControlsDirectionScale, false);
 	}
 }
 

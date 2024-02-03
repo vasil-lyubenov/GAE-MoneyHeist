@@ -17,10 +17,19 @@ public:
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
 	int32 MaxInventorySize = 10;
 
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	float Weight = 0.0f;
+
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	bool bAreControlsReversed = false;
+
 	AMoneyHeistPlayerState();
 
 	UFUNCTION()
-	float GetWeight();
+	float GetWeight() const;
+	
+	UFUNCTION()
+	bool AreControlsReversed() const;
 
 	UFUNCTION()
 	bool AddItem(class AScorePickup* Item);
@@ -30,6 +39,9 @@ public:
 
 	UFUNCTION()
 	void ReachedGoal();
+
+	UFUNCTION()
+	AScorePickup* GetItemAt(int32 Position);
 
 	UFUNCTION()
 	void UpdateWeight();

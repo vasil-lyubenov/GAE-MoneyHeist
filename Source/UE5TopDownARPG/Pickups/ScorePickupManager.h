@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "ScorePickup.h"
 #include "Engine/StaticMeshActor.h"
+#include <Net/UnrealNetwork.h>
 #include "ScorePickupManager.generated.h"
 
 UCLASS()

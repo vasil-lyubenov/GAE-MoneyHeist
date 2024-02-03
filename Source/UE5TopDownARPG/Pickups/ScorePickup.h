@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "BasePickup.h"
-#include <Net/UnrealNetwork.h>
 #include "ScorePickup.generated.h"
 
 

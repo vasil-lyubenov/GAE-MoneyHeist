@@ -2,6 +2,7 @@
 
 #include "MoneyHeistPlayerState.h"
 #include "Pickups/ScorePickup.h"
+#include "MoneyHeistMovementComponent.h"
 
 AMoneyHeistPlayerState::AMoneyHeistPlayerState()
 {
@@ -9,9 +10,14 @@ AMoneyHeistPlayerState::AMoneyHeistPlayerState()
     SetReplicates(true);
 }
 
-float AMoneyHeistPlayerState::GetWeight()
+float AMoneyHeistPlayerState::GetWeight() const
 {
-	return 3.0f;
+    return Weight;
+}
+
+bool AMoneyHeistPlayerState::AreControlsReversed() const
+{
+    return bAreControlsReversed;
 }
 
 bool AMoneyHeistPlayerState::AddItem(AScorePickup* Item)
@@ -22,6 +28,13 @@ bool AMoneyHeistPlayerState::AddItem(AScorePickup* Item)
     }
 
     Items.Add(Item);
+    Weight += Item->GetWeight();
+
+    UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());
+    if (MovementComponent)
+    {
+        MovementComponent->MaxWalkSpeed = 600.0f * FMath::Clamp(1.0f - Weight, 0.1f, 1.0f);
+    }
     return true;
 }
 
@@ -49,24 +62,23 @@ void AMoneyHeistPlayerState::ReachedGoal()
     RestoreInventory();
 }
 
+AScorePickup* AMoneyHeistPlayerState::GetItemAt(int32 Position)
+{
+    if (Position < 0 || Position >= Items.Num())
+    {
+        return nullptr;
+    }
+
+    return Cast<AScorePickup>(Items[Position]);
+}
+
 void AMoneyHeistPlayerState::UpdateWeight()
 {
-	//int32 Weight = GetWeight();
-
- //   APlayerController* LocalPlayerController = GetWorld()->GetFirstLocalPlayerFromController()->GetPlayerController(GetWorld());
-
- //   if (LocalPlayerController)
- //   {
- //       // Access the player state associated with the local player controller
- //       APlayerState* LocalPlayerState = LocalPlayerController->PlayerState;
-
- //       if (LocalPlayerState)
- //       {
- //           // Access information or perform actions related to the local player state
- //           // For example, you can get the player's score if you have a custom PlayerState class
- //           int32 PlayerScore = LocalPlayerState->GetScore();
- //       }
- //   }
+    Weight = 0.0f;
+    for (int i = 0; i < Items.Num(); i++)
+    {
+        Weight += GetItemAt(i)->GetWeight();
+    }
 }
 
 void AMoneyHeistPlayerState::OnRep_Score()
@@ -82,5 +94,7 @@ void AMoneyHeistPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
     DOREPLIFETIME(AMoneyHeistPlayerState, Items);
+    DOREPLIFETIME(AMoneyHeistPlayerState, Weight);
     DOREPLIFETIME(AMoneyHeistPlayerState, MaxInventorySize);
+    DOREPLIFETIME(AMoneyHeistPlayerState, bAreControlsReversed);
 }
