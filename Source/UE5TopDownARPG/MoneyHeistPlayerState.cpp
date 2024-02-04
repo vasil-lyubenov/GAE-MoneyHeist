@@ -35,7 +35,7 @@ bool AMoneyHeistPlayerState::AddItem(AScorePickup* Item)
     UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());
     if (MovementComponent)
     {
-        MovementComponent->MaxWalkSpeed = 600.0f * FMath::Clamp(1.0f - Weight, 0.1f, 1.0f);
+        MovementComponent->MaxWalkSpeed = DefaultWalkingSpeed * FMath::Clamp(1.0f - Weight, 0.1f, 1.0f);
     }
     return true;
 }
@@ -53,7 +53,7 @@ void AMoneyHeistPlayerState::RestoreInventory()
 
 void AMoneyHeistPlayerState::ReachedGoal()
 {
-    // Update Update Score
+    // Update Score
     SetScore(GetScore() + CarryingScore);
     OnRep_Score();
     RestoreInventory();
@@ -107,4 +107,5 @@ void AMoneyHeistPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
     DOREPLIFETIME(AMoneyHeistPlayerState, Weight);
     DOREPLIFETIME(AMoneyHeistPlayerState, MaxInventorySize);
     DOREPLIFETIME(AMoneyHeistPlayerState, bAreControlsReversed);
+    DOREPLIFETIME(AMoneyHeistPlayerState, BombAmount);
 }

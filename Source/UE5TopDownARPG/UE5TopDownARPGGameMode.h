@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "TimerManager.h"
 #include "UE5TopDownARPGGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -12,10 +13,18 @@ class AUE5TopDownARPGGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditDefaultsOnly)
+	float GameDuration = 120.0f;
+
 	AUE5TopDownARPGGameMode();
 
-	void EndGame(bool IsWin);
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+
+	UFUNCTION(Server, Reliable)
+	void ServerRPC_StartGameTimer();
+
+	void EndGame() const;
+
+protected:
+	FTimerHandle EndGameTimerHandle;
 };
-
-
-

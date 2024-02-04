@@ -9,6 +9,6 @@ void AWinTrigger::ActionStart(AActor* ActorInRange)
   AUE5TopDownARPGGameMode* GameMode = Cast<AUE5TopDownARPGGameMode>(GetWorld()->GetAuthGameMode());
   if (IsValid(GameMode))
   {
-    GameMode->EndGame(true);
+	GameMode->EndGame();
   }
 }

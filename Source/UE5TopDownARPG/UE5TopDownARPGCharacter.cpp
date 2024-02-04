@@ -118,8 +118,10 @@ void AUE5TopDownARPGCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 
 bool AUE5TopDownARPGCharacter::ActivateAbility(FVector Location)
 {
-	if (IsValid(AbilityInstance))
+	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(GetPlayerState());
+	if (IsValid(State) && IsValid(AbilityInstance) && State->BombAmount > 0)
 	{
+		State->BombAmount--;
 		return AbilityInstance->Activate(Location);
 	}
 	return false;
@@ -186,12 +188,7 @@ void AUE5TopDownARPGCharacter::Death()
 {
 	UE_LOG(LogUE5TopDownARPG, Log, TEXT("Death"));
 	RespawnPlayer();
-	AUE5TopDownARPGGameMode* GameMode = Cast<AUE5TopDownARPGGameMode>(GetWorld()->GetAuthGameMode());
 
-	if (IsValid(GameMode))
-	{
-		GameMode->EndGame(false);
-	}
 	/*
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

@@ -22,9 +22,15 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
 	float CarryingScore = 0.0f;
+	
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	int32 BombAmount = 0;
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
 	bool bAreControlsReversed = false;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DefaultWalkingSpeed = 600.0f;
 
 	AMoneyHeistPlayerState();
 
