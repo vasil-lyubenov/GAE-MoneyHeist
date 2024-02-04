@@ -17,7 +17,13 @@ ABomb::ABomb()
 void ABomb::BeginPlay()
 {
 	Super::BeginPlay();
+    DrawDangerZone();
 	GetWorld()->GetTimerManager().SetTimer(DetonationTimerHandle, this, &ABomb::Explode, DetonationTime, false);
+}
+
+void ABomb::DrawDangerZone()
+{
+    DrawDebugSphere(GetWorld(), GetActorLocation(), Radius, 12, FColor::Green, false, DetonationTime, 0, 1.0f);
 }
 
 void ABomb::Explode()

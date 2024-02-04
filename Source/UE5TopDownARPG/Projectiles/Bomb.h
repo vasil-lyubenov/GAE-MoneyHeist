@@ -31,5 +31,7 @@ protected:
 	FTimerHandle DetonationTimerHandle;
 
 private:
+	void DrawDangerZone();
+
 	void Explode();
 };
