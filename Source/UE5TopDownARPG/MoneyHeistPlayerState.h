@@ -21,6 +21,9 @@ public:
 	float Weight = 0.0f;
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	float CarryingScore = 0.0f;
+
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
 	bool bAreControlsReversed = false;
 
 	AMoneyHeistPlayerState();
@@ -45,6 +48,8 @@ public:
 
 	UFUNCTION()
 	void UpdateWeight();
+
+	void UpdateScoreWidget();
 
 	virtual void OnRep_Score() override;
 

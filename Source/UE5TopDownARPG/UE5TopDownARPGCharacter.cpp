@@ -125,6 +125,11 @@ bool AUE5TopDownARPGCharacter::ActivateAbility(FVector Location)
 	return false;
 }
 
+void AUE5TopDownARPGCharacter::SetScore(float Score)
+{
+	HealthbarWidget->SetText(Score);
+}
+
 void AUE5TopDownARPGCharacter::TakeAnyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigateBy, AActor* DamageCauser)
 {
 	Health -= Damage;

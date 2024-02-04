@@ -38,6 +38,8 @@ public:
 
 	bool ActivateAbility(FVector Location);
 
+	void SetScore(float Score);
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

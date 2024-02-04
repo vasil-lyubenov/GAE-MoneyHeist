@@ -6,7 +6,6 @@
 #include "BasePickup.h"
 #include "ScorePickup.generated.h"
 
-
 UCLASS()
 class UE5TOPDOWNARPG_API AScorePickup : public ABasePickup
 {
@@ -16,10 +15,10 @@ protected:
 	virtual void OnPickup(class AUE5TopDownARPGCharacter* Character);
 
 	UPROPERTY(EditDefaultsOnly, Replicated)
-	float ScoreIncrease = 10.0f;
+	float ScoreIncrease;
 
 	UPROPERTY(EditDefaultsOnly, Replicated)
-	float Weight = 10.0f;
+	float Weight;
 
 public:
 	float GetWeight();

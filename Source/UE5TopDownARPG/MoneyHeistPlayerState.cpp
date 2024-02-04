@@ -3,6 +3,7 @@
 #include "MoneyHeistPlayerState.h"
 #include "Pickups/ScorePickup.h"
 #include "MoneyHeistMovementComponent.h"
+#include "UE5TopDownARPGCharacter.h"
 
 AMoneyHeistPlayerState::AMoneyHeistPlayerState()
 {
@@ -29,6 +30,7 @@ bool AMoneyHeistPlayerState::AddItem(AScorePickup* Item)
 
     Items.Add(Item);
     Weight += Item->GetWeight();
+    CarryingScore += Item->GetScore();
 
     UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());
     if (MovementComponent)
@@ -45,20 +47,15 @@ void AMoneyHeistPlayerState::RestoreInventory()
 
     // Update Weight to be as normal
     UpdateWeight();
+
+    CarryingScore = 0.0f;
 }
 
 void AMoneyHeistPlayerState::ReachedGoal()
 {
     // Update Update Score
-    for (int i = 0; i < Items.Num(); i++)
-    {
-        AScorePickup* Item = Cast<AScorePickup>(Items[i]);
-        if (IsValid(Item)) 
-        {
-            SetScore(GetScore() + Item->GetScore());
-        }
-    }
-
+    SetScore(GetScore() + CarryingScore);
+    OnRep_Score();
     RestoreInventory();
 }
 
@@ -87,12 +84,19 @@ void AMoneyHeistPlayerState::UpdateWeight()
     }
 }
 
+void AMoneyHeistPlayerState::UpdateScoreWidget()
+{
+    AUE5TopDownARPGCharacter* Character = Cast<AUE5TopDownARPGCharacter>(GetPawn());
+    if (IsValid(Character) == false)
+    {
+        return;
+    }
+    Character->SetScore(Score);
+}
+
 void AMoneyHeistPlayerState::OnRep_Score()
 {
-    if (GEngine)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Increase Score By %f"), GetScore()));
-    }
+    UpdateScoreWidget();
 }
 
 void AMoneyHeistPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
