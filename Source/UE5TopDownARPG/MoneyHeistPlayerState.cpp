@@ -79,13 +79,19 @@ void AMoneyHeistPlayerState::UpdateWeight()
     {
         Weight += GetItemAt(i)->GetWeight();
     }
+
+    UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());
+    if (MovementComponent)
+    {
+        MovementComponent->MaxWalkSpeed = 600.0f * FMath::Clamp(1.0f - Weight, 0.1f, 1.0f);
+    }
 }
 
 void AMoneyHeistPlayerState::OnRep_Score()
 {
     if (GEngine)
     {
-        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Increase Score By %f"), Score));
+        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Increase Score By %f"), GetScore()));
     }
 }
 

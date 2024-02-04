@@ -29,12 +29,9 @@ protected:
 	void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UPROPERTY(EditDefaultsOnly)
-	class USphereComponent* SphereComponent;
+	class UBoxComponent* BoxComponent;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
-
 };

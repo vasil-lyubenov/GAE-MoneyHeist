@@ -129,24 +129,26 @@ void AUE5TopDownARPGCharacter::TakeAnyDamage(AActor* DamagedActor, float Damage,
 {
 	Health -= Damage;
 	OnRep_SetHealth(Health + Damage);
-	UE_LOG(LogUE5TopDownARPG, Log, TEXT("Health %f"), Health);
-	if (IsValid(HealthbarWidget))
-	{
-		float HealthPercent = Health / MaxHealth;
-		HealthbarWidget->SetPercent(HealthPercent);
-	}
+	
 	if (Health <= 0.0f)
 	{
-		FTimerManager& TimerManager = GetWorld()->GetTimerManager();
+		Death();
+		/*FTimerManager& TimerManager = GetWorld()->GetTimerManager();
 		if (TimerManager.IsTimerActive(DeathHandle) == false)
 		{
 			GetWorld()->GetTimerManager().SetTimer(DeathHandle, this, &AUE5TopDownARPGCharacter::Death, DeathDelay);
-		}
+		}*/
 	}
 }
 
 void AUE5TopDownARPGCharacter::OnRep_SetHealth(float OldHealth)
 {
+	if (IsValid(HealthbarWidget))
+	{
+		float HealthPercent = Health / MaxHealth;
+		HealthbarWidget->SetPercent(HealthPercent);
+	}
+
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Health %f"), Health));
@@ -170,6 +172,8 @@ void AUE5TopDownARPGCharacter::ServerRPC_UpdateState_Implementation(AScorePickup
 
 void AUE5TopDownARPGCharacter::RespawnPlayer()
 {
+	Health = MaxHealth;
+	OnRep_SetHealth(0.0f);
 	SetActorLocation(SpawnPosition);
 }
 
@@ -177,12 +181,13 @@ void AUE5TopDownARPGCharacter::Death()
 {
 	UE_LOG(LogUE5TopDownARPG, Log, TEXT("Death"));
 	RespawnPlayer();
-	/*AUE5TopDownARPGGameMode* GameMode = Cast<AUE5TopDownARPGGameMode>(GetWorld()->GetAuthGameMode());
+	AUE5TopDownARPGGameMode* GameMode = Cast<AUE5TopDownARPGGameMode>(GetWorld()->GetAuthGameMode());
+
 	if (IsValid(GameMode))
 	{
 		GameMode->EndGame(false);
 	}
-
+	/*
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 

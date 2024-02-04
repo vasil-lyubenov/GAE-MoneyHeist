@@ -3,7 +3,7 @@
 
 #include "BaseTrigger.h"
 #include "Kismet/GameplayStatics.h"
-#include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
 #include "../UE5TopDownARPG.h"
 #include "../UE5TopDownARPGCharacter.h"
 
@@ -13,13 +13,14 @@ ABaseTrigger::ABaseTrigger()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionSphereComponent"));
-	SphereComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	SphereComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
-	RootComponent = SphereComponent;
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionSphereComponent"));
+	BoxComponent->SetBoxExtent(FVector(100, 50, 20), true);
+	BoxComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	BoxComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+	RootComponent = BoxComponent;
 
-	SphereComponent->OnComponentBeginOverlap.AddUniqueDynamic(this, &ABaseTrigger::OnBeginOverlap);
-	SphereComponent->OnComponentEndOverlap.AddUniqueDynamic(this, &ABaseTrigger::OnEndOverlap);
+	BoxComponent->OnComponentBeginOverlap.AddUniqueDynamic(this, &ABaseTrigger::OnBeginOverlap);
+	BoxComponent->OnComponentEndOverlap.AddUniqueDynamic(this, &ABaseTrigger::OnEndOverlap);
 }
 
 // Called when the game starts or when spawned

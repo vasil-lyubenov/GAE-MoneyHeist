@@ -15,9 +15,12 @@ void AScorePickup::OnPickup(AUE5TopDownARPGCharacter* Character)
 		return;
 	}
 
-	if (State->AddItem(this))
+	if (State->AddItem(this) == false)
 	{
-		//Weight += Pickup->GetWeight();
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Inventory is Full")));
+		}
 	}
 }
 
