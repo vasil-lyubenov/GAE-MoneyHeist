@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../GameManagers/SpawnManager.h"
-#include "ScorePickupManager.generated.h"
+#include "SpawnManager.h"
+#include "HazardSpawnManager.generated.h"
 
 UCLASS()
-class UE5TOPDOWNARPG_API AScorePickupManager : public ASpawnManager
+class UE5TOPDOWNARPG_API AHazardSpawnManager : public ASpawnManager
 {
 	GENERATED_BODY()
 

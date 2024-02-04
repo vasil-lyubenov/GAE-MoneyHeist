@@ -34,7 +34,7 @@ private:
 	float DistanceTraveled = 0.0f;
 
 	UPROPERTY(ReplicatedUsing = OnRep_DistanceTraveled)
-	float InitialOffset;
+	FVector InitialOffset;
 
 	UFUNCTION()
 	void OnRep_DistanceTraveled();

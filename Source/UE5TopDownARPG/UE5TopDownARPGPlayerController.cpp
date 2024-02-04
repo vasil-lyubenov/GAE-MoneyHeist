@@ -112,25 +112,34 @@ void AUE5TopDownARPGPlayerController::OnSetDestinationTriggered()
 	if (bHitSuccessful)
 	{
 		CachedDestination = Hit.Location;
+
+		AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(PlayerState);
+		// Logic for reversing controlls
+		if (IsValid(State))
+		{
+			if (State->AreControlsReversed())
+			{
+				CachedDestination = GetPawn()->GetActorLocation() + (GetPawn()->GetActorLocation() - Hit.Location);
+			}
+		}
 	}
 	
 	// Move towards mouse pointer or touch
 	
-	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(PlayerState);
+	/*AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(PlayerState);
 	float ControlsDirectionScale = 1.0f;
-	float Weight = 0.0f;
+
 	if (IsValid(State)) 
 	{
 		ControlsDirectionScale = State->AreControlsReversed() ? -1 : 1;
-		Weight = State->GetWeight();
-	}
+	}*/
 
 	APawn* ControlledPawn = GetPawn();
 
 	if (ControlledPawn != nullptr)
 	{
 		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
-		ControlledPawn->AddMovementInput(WorldDirection, ControlsDirectionScale, false);
+		ControlledPawn->AddMovementInput(WorldDirection, 1.0f, false);
 	}
 }
 

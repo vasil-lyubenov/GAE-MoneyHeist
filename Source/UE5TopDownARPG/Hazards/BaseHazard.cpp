@@ -29,6 +29,13 @@ void ABaseHazard::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ABaseHazard::Destroyed()
+{
+	OnRemovedCallback.ExecuteIfBound();
+
+	Super::Destroyed();
+}
+
 void ABaseHazard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

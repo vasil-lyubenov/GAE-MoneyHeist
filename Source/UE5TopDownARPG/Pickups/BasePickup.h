@@ -15,6 +15,9 @@ class UE5TOPDOWNARPG_API ABasePickup : public AActor
 	
 public:	
 	OnPickupDelegate OnPickupCallback;
+	
+	UPROPERTY(EditDefaultsOnly)
+	bool bShouldGetDestroyedOnPickup = true;
 
 	ABasePickup();
 protected:

@@ -6,17 +6,22 @@
 #include "GameFramework/Actor.h"
 #include "BaseHazard.generated.h"
 
+DECLARE_DELEGATE(OnHazardRemovedDelegate)
+
 UCLASS()
 class UE5TOPDOWNARPG_API ABaseHazard : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	OnHazardRemovedDelegate OnRemovedCallback;
+
 	ABaseHazard();
 
 protected:
 	virtual void BeginPlay() override;
+
+	virtual void Destroyed() override;
 
 	UPROPERTY(EditDefaultsOnly)
 	float Damage = 100.0f;

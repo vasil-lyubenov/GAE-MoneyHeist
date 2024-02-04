@@ -18,7 +18,7 @@ void AMovingHazard::Tick(float DeltaTime)
 
 void AMovingHazard::ServerRPC_InitializeHazardOffset_Implementation()
 {
-    InitialOffset = GetActorLocation().X;
+    InitialOffset = GetActorLocation();
 }
 
 void AMovingHazard::ServerRPC_MoveHazard_Implementation(float DeltaTime)
@@ -31,7 +31,7 @@ void AMovingHazard::ServerRPC_MoveHazard_Implementation(float DeltaTime)
 
 void AMovingHazard::OnRep_DistanceTraveled()
 {
-    FVector MovePosition = FVector(InitialOffset + (GetActorForwardVector() * DistanceTraveled).X, GetActorLocation().Y, GetActorLocation().Z);
+    FVector MovePosition = InitialOffset + GetActorForwardVector() * DistanceTraveled;
     SetActorRelativeLocation(MovePosition);
     
     if (DistanceTraveled >= MaxDistance)
