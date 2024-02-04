@@ -31,7 +31,3 @@ void AProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	Destroy();
 }
-
-
-
-

@@ -124,16 +124,6 @@ void AUE5TopDownARPGPlayerController::OnSetDestinationTriggered()
 		}
 	}
 	
-	// Move towards mouse pointer or touch
-	
-	/*AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(PlayerState);
-	float ControlsDirectionScale = 1.0f;
-
-	if (IsValid(State)) 
-	{
-		ControlsDirectionScale = State->AreControlsReversed() ? -1 : 1;
-	}*/
-
 	APawn* ControlledPawn = GetPawn();
 
 	if (ControlledPawn != nullptr)

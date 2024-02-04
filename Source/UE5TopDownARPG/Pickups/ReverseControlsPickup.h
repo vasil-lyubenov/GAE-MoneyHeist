@@ -7,9 +7,6 @@
 #include "TimerManager.h"
 #include "ReverseControlsPickup.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class UE5TOPDOWNARPG_API AReverseControlsPickup : public ABasePickup
 {
@@ -21,8 +18,8 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float EffectDuration = 2.0f;
 
-private:
+protected:
 	FTimerHandle EffectStopTimerHandle;
 
-	void OnEffectStop(class AMoneyHeistPlayerState* PlayerState);
+	virtual void OnEffectStop(class AMoneyHeistPlayerState* PlayerState);
 };
