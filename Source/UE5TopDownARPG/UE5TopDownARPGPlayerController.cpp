@@ -43,14 +43,6 @@ void AUE5TopDownARPGPlayerController::BeginPlay()
 	}
 }
 
-void AUE5TopDownARPGPlayerController::OnRep_PlayerState()
-{
-	/*if (PlayerState != nullptr) 
-	{
-		AMoneyHeistPlayerState* CurrentState = Cast<AMoneyHeistPlayerState>(PlayerState);
-	}*/
-}
-
 void AUE5TopDownARPGPlayerController::SetupInputComponent()
 {
 	// set up gameplay key bindings
@@ -176,4 +168,31 @@ void AUE5TopDownARPGPlayerController::OnActivateAbilityStarted()
 			ARPGCharacter->ActivateAbility(Hit.Location);
 		}
 	}
+}
+
+void AUE5TopDownARPGPlayerController::AdjustSpeedByState()
+{	
+	APawn* MHPawn = GetPawn();
+	if (IsValid(MHPawn) == false)
+	{
+		return;
+	}
+
+	APlayerState* MHPlayerState = MHPawn->GetPlayerState();
+	if (IsValid(MHPlayerState) == false)
+	{
+		return;
+	}
+
+	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(MHPlayerState);
+	if (IsValid(State) == false)
+	{
+		return;
+	}
+
+	UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());
+	if (MovementComponent)
+	{
+		MovementComponent->MaxWalkSpeed = State->DefaultWalkingSpeed * FMath::Clamp(1.0f - State->Weight, 0.1f, 1.0f);
+	}	
 }

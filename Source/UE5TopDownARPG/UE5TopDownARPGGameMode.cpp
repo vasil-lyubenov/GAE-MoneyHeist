@@ -44,8 +44,10 @@ void AUE5TopDownARPGGameMode::ServerRPC_StartGameTimer_Implementation()
 	GetWorld()->GetTimerManager().SetTimer(EndGameTimerHandle, this, &AUE5TopDownARPGGameMode::EndGame, GameDuration, false);
 }
 
-void AUE5TopDownARPGGameMode::EndGame() const
+void AUE5TopDownARPGGameMode::EndGame()
 {
+	MHStopSpawners();
+
 	TArray<AActor*> AllCharacters;
 	UWorld* World = GetWorld();
 	UGameplayStatics::GetAllActorsOfClass(World, AMoneyHeistPlayerState::StaticClass(), AllCharacters);
@@ -72,23 +74,18 @@ void AUE5TopDownARPGGameMode::EndGame() const
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Winner is %s"), *AllCharacters[WinnerIndex]->GetName()));
 	}
-
-	StopSpawners();
 }
 
-void AUE5TopDownARPGGameMode::StopSpawners() const
+void AUE5TopDownARPGGameMode::MHStopSpawners()
 {
 	TArray<AActor*> AllSpawners;
 	UWorld* World = GetWorld();
-	UGameplayStatics::GetAllActorsOfClass(World, AMoneyHeistPlayerState::StaticClass(), AllSpawners);
+	UGameplayStatics::GetAllActorsOfClass(World, ASpawnManager::StaticClass(), AllSpawners);
 
 	if (AllSpawners.Num() <= 0)
 	{
 		return;
 	}
-
-	float MaxScore = 0;
-	int32 WinnerIndex = 0;
 
 	for (int i = 0; i < AllSpawners.Num(); i++)
 	{

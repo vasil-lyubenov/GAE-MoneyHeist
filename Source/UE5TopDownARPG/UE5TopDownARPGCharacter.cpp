@@ -19,6 +19,7 @@
 #include "Net/UnrealNetwork.h"
 #include "MoneyHeistPlayerState.h"
 #include "Pickups/ScorePickup.h"
+#include "MoneyHeistMovementComponent.h"
 
 AUE5TopDownARPGCharacter::AUE5TopDownARPGCharacter()
 {
@@ -93,19 +94,6 @@ void AUE5TopDownARPGCharacter::BeginPlay()
 void AUE5TopDownARPGCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-
-		/*
-		FHitResult HitResult;
-		FVector TraceStartLocation = GetActorLocation();
-		FVector TraceEndLocation = GetActorLocation() + GetActorForwardVector() * 300.0f;
-		FCollisionQueryParams Params;
-		Params.AddIgnoredActor(this);
-
-		if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStartLocation, TraceEndLocation, ECollisionChannel::ECC_WorldDynamic, Params))
-		{
-			UE_LOG(LogUE5TopDownARPG, Log, TEXT("TraceHit %s %s"), *HitResult.GetActor()->GetName(), *HitResult.GetComponent()->GetName());
-		}
-		*/
 }
 
 void AUE5TopDownARPGCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -151,10 +139,10 @@ void AUE5TopDownARPGCharacter::OnRep_SetHealth(float OldHealth)
 		HealthbarWidget->SetPercent(HealthPercent);
 	}
 
-	if (GEngine)
+	/*if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Health %f"), Health));
-	}
+	}*/
 }
 
 void AUE5TopDownARPGCharacter::ServerRPC_UpdateState_Implementation(AScorePickup* Pickup)

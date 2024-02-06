@@ -22,22 +22,22 @@ class UE5TOPDOWNARPG_API AMoneyHeistPlayerState : public APlayerState
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "PlayerState")
 	TArray<FPersistData> Items;
 
-	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "PlayerState")
 	int32 MaxInventorySize = 10;
 
-	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "PlayerState")
 	float Weight = 0.0f;
 
-	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "PlayerState")
 	float CarryingScore = 0.0f;
 	
-	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "PlayerState")
 	int32 BombAmount = 0;
 
-	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
+	UPROPERTY(Replicated, EditDefaultsOnly, Category = "PlayerState")
 	bool bAreControlsReversed = false;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -47,6 +47,8 @@ public:
 
 	UFUNCTION()
 	float GetWeight() const;
+
+	void OnUpdatedWeight();
 	
 	UFUNCTION()
 	bool AreControlsReversed() const;

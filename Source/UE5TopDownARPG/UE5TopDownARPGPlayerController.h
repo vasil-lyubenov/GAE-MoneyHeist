@@ -19,6 +19,8 @@ class AUE5TopDownARPGPlayerController : public APlayerController
 public:
 	AUE5TopDownARPGPlayerController();
 
+	void AdjustSpeedByState();
+
 	void OnPlayerDied();
 
 	/** Time Threshold to know if it was a short press */
@@ -43,8 +45,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* ActivateAbilityAction;
-
-	virtual void OnRep_PlayerState() override;
 
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */

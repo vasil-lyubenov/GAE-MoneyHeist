@@ -3,12 +3,11 @@
 #include "ScorePickup.h"
 #include "../UE5TopDownARPGCharacter.h"
 #include "../MoneyHeistPlayerState.h"
+#include "../UE5TopDownARPGPlayerController.h"
 
 void AScorePickup::OnPickup(AUE5TopDownARPGCharacter* Character)
 {
 	Super::OnPickup(Character);
-	//Character->ServerRPC_UpdateState(this);
-
 	AMoneyHeistPlayerState* State = Cast<AMoneyHeistPlayerState>(Character->GetPlayerState());
 	if (IsValid(State) == false)
 	{

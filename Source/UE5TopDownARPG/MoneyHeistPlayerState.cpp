@@ -4,6 +4,7 @@
 #include "Pickups/ScorePickup.h"
 #include "MoneyHeistMovementComponent.h"
 #include "UE5TopDownARPGCharacter.h"
+#include "UE5TopDownARPGPlayerController.h"
 
 AMoneyHeistPlayerState::AMoneyHeistPlayerState()
 {
@@ -14,6 +15,18 @@ AMoneyHeistPlayerState::AMoneyHeistPlayerState()
 float AMoneyHeistPlayerState::GetWeight() const
 {
     return Weight;
+}
+
+void AMoneyHeistPlayerState::OnUpdatedWeight()
+{
+    AUE5TopDownARPGCharacter* Character = Cast<AUE5TopDownARPGCharacter>(GetPawn());
+    if (IsValid(Character->GetController()))
+	{
+		AUE5TopDownARPGPlayerController* TopDownController = Cast<AUE5TopDownARPGPlayerController>(Character->GetController());
+
+		TopDownController->AdjustSpeedByState();
+	}
+    return;
 }
 
 bool AMoneyHeistPlayerState::AreControlsReversed() const
@@ -28,15 +41,11 @@ bool AMoneyHeistPlayerState::AddItem(AScorePickup* Item)
         return false;
     }
 
-    Items.Add(FPersistData(Item->GetScore(), Item->GetWeight()));
     Weight += Item->GetWeight();
     CarryingScore += Item->GetScore();
+    Items.Add(FPersistData(Item->GetScore(), Item->GetWeight()));
+    OnUpdatedWeight();
 
-    UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());
-    if (MovementComponent)
-    {
-        MovementComponent->MaxWalkSpeed = DefaultWalkingSpeed * FMath::Clamp(1.0f - Weight, 0.1f, 1.0f);
-    }
     return true;
 }
 
@@ -76,12 +85,7 @@ void AMoneyHeistPlayerState::UpdateWeight()
     {
         Weight += GetItemAt(i).Weight;
     }
-
-    UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());
-    if (MovementComponent)
-    {
-        MovementComponent->MaxWalkSpeed = 600.0f * FMath::Clamp(1.0f - Weight, 0.1f, 1.0f);
-    }
+    OnUpdatedWeight();
 }
 
 void AMoneyHeistPlayerState::UpdateScoreWidget()

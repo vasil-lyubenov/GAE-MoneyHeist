@@ -23,9 +23,9 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerRPC_StartGameTimer();
 
-	void EndGame() const;
+	void EndGame();
 
-	void StopSpawners() const;
+	void MHStopSpawners();
 
 protected:
 	FTimerHandle EndGameTimerHandle;
