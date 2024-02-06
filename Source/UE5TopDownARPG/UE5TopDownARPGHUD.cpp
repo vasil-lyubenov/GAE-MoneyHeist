@@ -5,6 +5,7 @@
 #include "UI/EndGameWidget.h"
 #include "UI/StartGameWidget.h"
 #include "Kismet/GameplayStatics.h"
+#include "MoneyHeistPlayerState.h"
 
 void AUE5TopDownARPGHUD::BeginPlay()
 {
@@ -25,8 +26,14 @@ void AUE5TopDownARPGHUD::BeginPlay()
     {
         StartGameWidget->AddToViewport();
         StartGameWidget->SetVisibility(ESlateVisibility::Collapsed);
-        StartGameWidget->Init();
-        //ShowStartGameScreen();
+
+       /* for (int i = 0; i < PlayerState->MaxInventorySize; i++)
+        {
+
+        }
+
+        StartGameWidget->Init(PlayerController->GetPlayerState<AMoneyHeistPlayerState>());
+        ShowStartGameScreen();*/
     }
   }
 }

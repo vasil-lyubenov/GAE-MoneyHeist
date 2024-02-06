@@ -6,6 +6,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "UE5TopDownARPG.h"
 #include "MoneyHeistPlayerState.h"
+#include "GameManagers/SpawnManager.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -70,5 +71,31 @@ void AUE5TopDownARPGGameMode::EndGame() const
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Winner is %s"), *AllCharacters[WinnerIndex]->GetName()));
+	}
+
+	StopSpawners();
+}
+
+void AUE5TopDownARPGGameMode::StopSpawners() const
+{
+	TArray<AActor*> AllSpawners;
+	UWorld* World = GetWorld();
+	UGameplayStatics::GetAllActorsOfClass(World, AMoneyHeistPlayerState::StaticClass(), AllSpawners);
+
+	if (AllSpawners.Num() <= 0)
+	{
+		return;
+	}
+
+	float MaxScore = 0;
+	int32 WinnerIndex = 0;
+
+	for (int i = 0; i < AllSpawners.Num(); i++)
+	{
+		ASpawnManager* Manager = Cast<ASpawnManager>(AllSpawners[i]);
+		if (IsValid(Manager))
+		{
+			Manager->ServerRPC_OnGameEnd();
+		}
 	}
 }

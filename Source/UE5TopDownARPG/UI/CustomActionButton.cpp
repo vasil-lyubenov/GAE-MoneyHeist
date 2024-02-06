@@ -2,7 +2,7 @@
 #include "CustomActionButton.h"
 #include <UE5TopDownARPG/UE5TopDownARPGHUD.h>
 #include <UE5TopDownARPG/UE5TopDownARPGHUD.h>
-#include "GameFramework/PlayerState.h"
+#include "../MoneyHeistPlayerState.h"
 #include "Net/UnrealNetwork.h"
 
 UCustomActionButton::UCustomActionButton()
@@ -10,45 +10,13 @@ UCustomActionButton::UCustomActionButton()
 	OnClicked.AddDynamic(this, &UCustomActionButton::OnClick);
 }
 
+void UCustomActionButton::SetButtonAction(AMoneyHeistPlayerState* NewPlayerState, int32 Index)
+{
+	PlayerState = NewPlayerState;
+	ItemIndex = Index;
+}
+
 void UCustomActionButton::OnClick()
 {
-	switch (ButtonActionType)
-	{
-		case EButtonActionType::HOST:
-			OnStartHostButtonPress();
-			break;
-		case EButtonActionType::FIND:
-			OnFindHostButtonPress();
-			break;
-	}
-}
-
-void UCustomActionButton::SetButtonAction(EButtonActionType ButtonAction)
-{
-	ButtonActionType = ButtonAction;
-}
-
-void UCustomActionButton::OnFindHostButtonPress()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Clicked find host action"));
-	
-	HideStartGameWidget();
-}
-
-void UCustomActionButton::OnStartHostButtonPress()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Clicked start host action"));
-
-	HideStartGameWidget();
-}
-
-void UCustomActionButton::HideStartGameWidget()
-{
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-
-	AUE5TopDownARPGHUD* HUD = Cast<AUE5TopDownARPGHUD>(PlayerController->GetHUD());
-	if (IsValid(HUD))
-	{
-		HUD->HideStartGameScreen();
-	}
+	// Remove button at position
 }

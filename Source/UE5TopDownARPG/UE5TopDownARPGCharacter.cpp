@@ -140,11 +140,6 @@ void AUE5TopDownARPGCharacter::TakeAnyDamage(AActor* DamagedActor, float Damage,
 	if (Health <= 0.0f)
 	{
 		Death();
-		/*FTimerManager& TimerManager = GetWorld()->GetTimerManager();
-		if (TimerManager.IsTimerActive(DeathHandle) == false)
-		{
-			GetWorld()->GetTimerManager().SetTimer(DeathHandle, this, &AUE5TopDownARPGCharacter::Death, DeathDelay);
-		}*/
 	}
 }
 
@@ -170,10 +165,7 @@ void AUE5TopDownARPGCharacter::ServerRPC_UpdateState_Implementation(AScorePickup
 		return;
 	}
 
-	if (State->AddItem(Pickup)) 
-	{
-		//Weight += Pickup->GetWeight();
-	}
+	State->AddItem(Pickup);
 }
 	
 
@@ -188,23 +180,4 @@ void AUE5TopDownARPGCharacter::Death()
 {
 	UE_LOG(LogUE5TopDownARPG, Log, TEXT("Death"));
 	RespawnPlayer();
-
-	/*
-	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-	FVector Location = GetActorLocation();
-	FRotator Rotation = GetActorRotation();
-	if (FMath::RandBool())
-	{
-		AActor* SpawnedActor = GetWorld()->SpawnActor(AfterDeathSpawnClass, &Location, &Rotation, SpawnParameters);
-	}
-
-	GetWorld()->GetTimerManager().ClearTimer(DeathHandle);
-	AUE5TopDownARPGPlayerController* PlayerController = Cast<AUE5TopDownARPGPlayerController>(GetController());
-	if (IsValid(PlayerController))
-	{
-		PlayerController->OnPlayerDied();
-	}
-	Destroy();*/
 }

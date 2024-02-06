@@ -36,12 +36,6 @@ void AUE5TopDownARPGPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AUE5TopDownARPGHUD* HUD = Cast<AUE5TopDownARPGHUD>(GetHUD());
-	if (IsValid(HUD))
-	{
-		HUD->ShowStartGameScreen();
-	}
-
 	//Add Input Mapping Context
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
@@ -51,14 +45,10 @@ void AUE5TopDownARPGPlayerController::BeginPlay()
 
 void AUE5TopDownARPGPlayerController::OnRep_PlayerState()
 {
-	if (PlayerState != nullptr) 
+	/*if (PlayerState != nullptr) 
 	{
 		AMoneyHeistPlayerState* CurrentState = Cast<AMoneyHeistPlayerState>(PlayerState);
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Weight %f"), CurrentState->GetWeight()));
-		}
-	}
+	}*/
 }
 
 void AUE5TopDownARPGPlayerController::SetupInputComponent()
@@ -119,7 +109,8 @@ void AUE5TopDownARPGPlayerController::OnSetDestinationTriggered()
 		{
 			if (State->AreControlsReversed())
 			{
-				CachedDestination = GetPawn()->GetActorLocation() + (GetPawn()->GetActorLocation() - Hit.Location);
+				FVector Location = GetPawn()->GetActorLocation();
+				CachedDestination = Location + (Location - Hit.Location);
 			}
 		}
 	}
@@ -139,6 +130,8 @@ void AUE5TopDownARPGPlayerController::OnSetDestinationReleased()
 	if (FollowTime <= ShortPressThreshold)
 	{
 		// We move there and spawn some particles
+		FVector Location = GetPawn()->GetActorLocation();
+
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, FXCursor, CachedDestination, FRotator::ZeroRotator, FVector(1.f, 1.f, 1.f), true, true, ENCPoolMethod::None, true);
 	}

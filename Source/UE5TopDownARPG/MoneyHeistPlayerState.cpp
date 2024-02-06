@@ -28,7 +28,7 @@ bool AMoneyHeistPlayerState::AddItem(AScorePickup* Item)
         return false;
     }
 
-    Items.Add(Item);
+    Items.Add(FPersistData(Item->GetScore(), Item->GetWeight()));
     Weight += Item->GetWeight();
     CarryingScore += Item->GetScore();
 
@@ -59,14 +59,14 @@ void AMoneyHeistPlayerState::ReachedGoal()
     RestoreInventory();
 }
 
-AScorePickup* AMoneyHeistPlayerState::GetItemAt(int32 Position)
+FPersistData AMoneyHeistPlayerState::GetItemAt(int32 Position)
 {
     if (Position < 0 || Position >= Items.Num())
     {
-        return nullptr;
+        return FPersistData(0, 0);
     }
 
-    return Cast<AScorePickup>(Items[Position]);
+    return Items[Position];
 }
 
 void AMoneyHeistPlayerState::UpdateWeight()
@@ -74,7 +74,7 @@ void AMoneyHeistPlayerState::UpdateWeight()
     Weight = 0.0f;
     for (int i = 0; i < Items.Num(); i++)
     {
-        Weight += GetItemAt(i)->GetWeight();
+        Weight += GetItemAt(i).Weight;
     }
 
     UCharacterMovementComponent* MovementComponent = Cast<UCharacterMovementComponent>(GetPawn()->GetMovementComponent());

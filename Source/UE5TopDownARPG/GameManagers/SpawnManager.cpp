@@ -54,12 +54,13 @@ void ASpawnManager::ServerRPC_RemoveObjectAt_Implementation(int32 position)
 
 void ASpawnManager::ServerRPC_InitSpawnTimer_Implementation()
 {
-	GetWorld()->GetTimerManager().SetTimer(CustomSpawnTickTimerHandle, this, &ASpawnManager::ServerRPC_CreateObject, SpawnPickupDelay, true);
+	GetWorld()->GetTimerManager().SetTimer(CustomSpawnTickTimerHandle, this, &ASpawnManager::ServerRPC_CreateObject, SpawnPickupDelay + FMath::RandRange(0.0f, SpawnVariance), false);
 }
 
 void ASpawnManager::ServerRPC_CreateObject_Implementation()
 {
 	CreateObject();
+	ServerRPC_InitSpawnTimer();
 }
 
 int32 ASpawnManager::GetRandomPositionToSpawn()

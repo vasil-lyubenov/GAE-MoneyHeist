@@ -9,40 +9,25 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FClickDelegate);
 
-UENUM()
-enum EButtonActionType
-{
-	NONE,
-	FIND,
-	HOST
-};
-
-
 UCLASS()
 class UE5TOPDOWNARPG_API UCustomActionButton : public UButton
 {
 	GENERATED_BODY()
-protected:
-	EButtonActionType ButtonActionType;
 
 public:
+
+	class AMoneyHeistPlayerState* PlayerState;
+
+	int32 ItemIndex;
+
 	UCustomActionButton();
 
 	UPROPERTY()
 	FClickDelegate click;
 
 	UFUNCTION()
-	void SetButtonAction(EButtonActionType ButtonActionType);
+	void SetButtonAction(class AMoneyHeistPlayerState* NewPlayerState, int32 Index);
 
 	UFUNCTION()
 	void OnClick();
-
-	UFUNCTION()
-	void OnFindHostButtonPress();
-
-	UFUNCTION()
-	void OnStartHostButtonPress();
-
-	UFUNCTION()
-	void HideStartGameWidget();
 };

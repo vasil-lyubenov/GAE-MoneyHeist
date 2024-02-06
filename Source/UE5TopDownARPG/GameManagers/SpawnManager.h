@@ -17,6 +17,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float SpawnPickupDelay = 2.0f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float SpawnVariance = 0.0f;
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TSoftObjectPtr<AActor>> SpawnPoints;

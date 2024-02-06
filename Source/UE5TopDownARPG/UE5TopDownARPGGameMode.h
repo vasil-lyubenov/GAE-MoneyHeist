@@ -25,6 +25,8 @@ public:
 
 	void EndGame() const;
 
+	void StopSpawners() const;
+
 protected:
 	FTimerHandle EndGameTimerHandle;
 };

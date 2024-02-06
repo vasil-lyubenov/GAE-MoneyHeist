@@ -5,6 +5,17 @@
 #include <Net/UnrealNetwork.h>
 #include "MoneyHeistPlayerState.generated.h"
 
+USTRUCT(BlueprintType)
+struct UE5TOPDOWNARPG_API FPersistData {
+	GENERATED_USTRUCT_BODY()
+
+public:
+	float ScoreIncrease;
+	float Weight;
+
+	FPersistData(float InitialScoreIncrease = 0, float InitialWeight = 0) : ScoreIncrease(InitialScoreIncrease), Weight(InitialWeight) {}
+};
+
 UCLASS()
 class UE5TOPDOWNARPG_API AMoneyHeistPlayerState : public APlayerState
 {
@@ -12,7 +23,7 @@ class UE5TOPDOWNARPG_API AMoneyHeistPlayerState : public APlayerState
 	
 public:
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
-	TArray<AActor*> Items;
+	TArray<FPersistData> Items;
 
 	UPROPERTY(Replicated, BlueprintReadOnly, Category = "PlayerState")
 	int32 MaxInventorySize = 10;
@@ -50,7 +61,7 @@ public:
 	void ReachedGoal();
 
 	UFUNCTION()
-	AScorePickup* GetItemAt(int32 Position);
+	FPersistData GetItemAt(int32 Position);
 
 	UFUNCTION()
 	void UpdateWeight();

@@ -13,17 +13,26 @@ class UE5TOPDOWNARPG_API UStartGameWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	TSubclassOf<class UCustomActionButton*> CustomButton;
+
 protected:
 	UPROPERTY(meta = (BindWidget))
 	class UCustomActionButton* StartHostButton;
 
 	UPROPERTY(meta = (BindWidget))
+	class UHorizontalBox* ButtonsContainer;
+
+	UPROPERTY(meta = (BindWidget))
 	class UCustomActionButton* FindHostButton;
 
-	void OnFindHostButtonPress();
+	/*void OnFindHostButtonPress();
 
-	void OnStartHostButtonPress();
+	void OnStartHostButtonPress();*/
 
 public:
-	void Init();
+	//void Init(class UCustomActionButton* CustomButton, class AMoneyHeistPlayerState* NewPlayerState);
+
+private:
+	class AMoneyHeistPlayerState* PlayerState;
 };
